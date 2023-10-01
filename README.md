@@ -1,6 +1,8 @@
 # JWT (JSON Web Token)
 - Comparing with Session-based Authentication that need to store Session on Cookie, the big advantage of Token-based Authentication is that we store the JSON Web Token (JWT) on Client side: Local Storage for Browser, Keychain for IOS and SharedPreferences for Android… So we don’t need to build another backend project that supports Native Apps or an additional Authentication module for Native App users.
 
+<img  alt='flow-chart' src='/imgs/sys.png'>
+
 - There are three important parts of a JWT: Header, Payload, Signature. Together they are combined to a standard structure: `header.payload.signature.`
 
 - The Client typically attaches JWT in **Authorization** header with Bearer prefix:
@@ -13,7 +15,7 @@
 
 The diagram shows flow of User Registration, User Login and Authorization process
 
-<img  alt='flow-chart' src='/imgs/sys.png'>
+<img  alt='flow-chart' src='/imgs/flow.png'>
 
 A legal JWT must be added to HTTP **x-access-token** Header if Client accesses protected routes. Therefore, we have to implement **Refresh Token**:
 
