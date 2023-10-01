@@ -3,14 +3,21 @@
 
 - There are three important parts of a JWT: Header, Payload, Signature. Together they are combined to a standard structure: `header.payload.signature.`
 
-- The Client typically attaches JWT in x-access-token header:
+- The Client typically attaches JWT in **Authorization** header with Bearer prefix:
+`Authorization: Bearer [header].[payload].[signature]`
+
+- Or, only in **x-access-token** header:
 `x-access-token: [header].[payload].[signature]`
 
 # Flow for User Registration and User Login
 
+The diagram shows flow of User Registration, User Login and Authorization process
+
 <img  alt='flow-chart' src='/imgs/sys.png'>
 
-The diagram shows flow of User Registration, User Login and Authorization process
+A legal JWT must be added to HTTP **x-access-token** Header if Client accesses protected routes. Therefore, we have to implement **Refresh Token**:
+
+<img  alt='flow-chart' src='/imgs/refreshToken.png'>
 
 There are 2 endpoints for Authentication:
 - `api/auth/signup` for User Registration
@@ -44,6 +51,7 @@ If these middlewares throw any error, a message will be sent as HTTP response
 # Frontend
 
 ## Overview
+
 
 <img  alt='flow-chart' src='/imgs/frontend.png'>
 
