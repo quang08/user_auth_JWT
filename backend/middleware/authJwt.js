@@ -21,7 +21,7 @@ verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized" });
     }
-    req.userId = decoded; //add to the req.object
+    req.userId = decoded.id; //add to the req.object
     next();
   });
 };
@@ -48,7 +48,7 @@ isModerator = async (req, res, next) => {
   await User.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i] === "moderator") {
+        if (roles[i].name === "moderator") {
           next();
           return;
         }
@@ -64,12 +64,12 @@ isAdminOrModerator = async (req, res) => {
   await User.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i] === "moderator") {
+        if (roles[i].name === "moderator") {
           next();
           return;
         }
 
-        if (roles[i] === "admin") {
+        if (roles[i].name === "admin") {
           next();
           return;
         }
