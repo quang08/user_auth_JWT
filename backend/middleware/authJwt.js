@@ -83,7 +83,7 @@ isAdminOrModerator = async (req, res) => {
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
-  isModeratorOrAdmin: isModeratorOrAdmin,
+  isAdminOrModerator: isAdminOrModerator,
   isModerator: isModerator,
 };
 
