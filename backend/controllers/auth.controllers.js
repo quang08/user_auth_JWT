@@ -1,4 +1,4 @@
-/* 2 main functions:
+/* 2 main functions for Authentication controllers:
 - Sign up: create new User in the database (role user if not specify role)
 - Sign in: 
     - check if requested username is in the db
