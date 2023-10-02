@@ -11,8 +11,59 @@ const db = require("../models/index");
 const User = db.user;
 const Role = db.role;
 const Op = db.Sequelize.Op;
+const config = require("../config/auth.config");
 
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+exports.signin = async (req, res) => {
+  const { username, password } = req.body;
+
+  //find the user
+  await User.findOne({
+    where: {
+      username,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ message: "User not found." });
+      }
+      //validate password
+      const validPassword = bcrypt.compareSync(password, user.password);
+
+      if (!validPassword) {
+        return res
+          .status(401)
+          .send({ accessToken: null, message: "Invalid password" });
+      }
+
+      //create the token
+      const token = jwt.sign({ id: user.id }, config.secret, {
+        algorithm: "HS256",
+        allowInsecureKeySizes: true,
+        expiresIn: 86400, //24hrs
+      });
+
+      //take the user associated roles from DB and attach to response
+      const authorities = [];
+      user.getRoles().then((roles) => {
+        for (let i = 0; i < roles.length; i++) {
+          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+        res.status(200).send({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          roles: authorities,
+          accessToken: token,
+        });
+      });
+    })
+    .catch((e) => {
+      res.status(500).send({ message: e.message });
+    });
+};
 
 exports.signup = async (req, res) => {
   const { username, email, password } = req.body;
