@@ -1,33 +1,62 @@
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const db = require('./models/index')
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
 
-const app = express()
-const corsOptions = { origin: "http://localhost:3001" }
-dotenv.config()
+//db
+const db = require("./models/index");
+const Role = db.role;
 
-app.use(cors(corsOptions))
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+const app = express();
+const corsOptions = { origin: "http://localhost:3001" };
+dotenv.config();
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+db.sequelize.sync();
+
+// db.sequelize.sync({force: true}).then(() => {
+//   console.log('Drop and Resync Db');
+//   initial();
+// })
 
 app.get("/", (req, res) => {
-    res.json({message: "Welcome"})
-})
+  res.json({ message: "Welcome" });
+});
 
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
 
-db.sequelize
-    .authenticate()
-    .then(() => {
-        console.log( "Connection to MySQL database has been established successfully.");
-        app.listen(PORT, () => {
-          console.log(`Server is running on port ${PORT}.`);
-        });
-    })
-    .catch((e) => {
-        console.error("Unable to connect to the database:", error);
-    })
+const initial = () => {
+  Role.create({
+    id: 1,
+    name: "user",
+  });
 
+  Role.create({
+    id: 2,
+    name: "moderator",
+  });
 
+  Role.create({
+    id: 3,
+    name: "admin",
+  });
+};
 
+// db.sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log(
+//       "Connection to MySQL database has been established successfully.",
+//     );
+//     app.listen(PORT, () => {
+//       console.log(`Server is running on port ${PORT}.`);
+//     });
+//   })
+//   .catch((e) => {
+//     console.error("Unable to connect to the database:", error);
+//   });
