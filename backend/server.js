@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const cookieSession = require("cookie-session");
 
 //db
 const db = require("./models/index");
@@ -13,6 +14,14 @@ dotenv.config();
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  cookieSession({
+    name: "auth-session",
+    keys: [process.env.COOKIE_SECRET],
+    httpOnly: true, //indicate that the cookie is only to be sent over HTTP(S), and not made available to client JavaScript.
+  }),
+);
 
 //routes
 app.use("/api/auth", require("./routes/auth.routes"));

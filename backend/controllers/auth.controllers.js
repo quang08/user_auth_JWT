@@ -5,6 +5,8 @@
     - compare password using bcrypt
     - if correct, generate jwt token using jsonwebtoken
     - return user info from the db and the access token
+- Signn out:
+  - clear session in request
 */
 
 const db = require("../models/index");
@@ -44,6 +46,9 @@ exports.signin = async (req, res) => {
         allowInsecureKeySizes: true,
         expiresIn: 86400, //24hrs
       });
+
+      //attatch token into the session
+      req.session.token = token;
 
       //take the user associated roles from DB and attach to response
       const authorities = [];
@@ -96,4 +101,11 @@ exports.signup = async (req, res) => {
     .catch((e) => {
       res.status(500).send({ message: e.message });
     });
+};
+
+exports.signOut = async (req, res) => {
+  req.session = null;
+  return res
+    .status(200)
+    .send({ message: "You have successfully logged out. " });
 };
