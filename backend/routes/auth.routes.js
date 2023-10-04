@@ -32,4 +32,6 @@ router.post(
 
 router.post("/signin", controller.signin);
 
+router.post("/signout", controller.signOut);
+
 module.exports = router;

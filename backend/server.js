@@ -1,18 +1,27 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const cookieSession = require("cookie-session");
 
 //db
 const db = require("./models/index");
 const Role = db.role;
 
 const app = express();
-const corsOptions = { origin: "http://localhost:3001" };
+const corsOptions = { origin: "http://localhost:3000" };
 dotenv.config();
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  cookieSession({
+    name: "auth-session",
+    keys: [process.env.COOKIE_SECRET],
+    httpOnly: true, //indicate that the cookie is only to be sent over HTTP(S), and not made available to client JavaScript.
+  }),
+);
 
 //routes
 app.use("/api/auth", require("./routes/auth.routes"));
@@ -29,7 +38,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome" });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

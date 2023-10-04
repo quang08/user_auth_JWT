@@ -39,5 +39,4 @@ router.get(
   controller.adminBoard,
 );
 
-
-module.exports = router
+module.exports = router;
