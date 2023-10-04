@@ -7,7 +7,7 @@ const db = require("./models/index");
 const Role = db.role;
 
 const app = express();
-const corsOptions = { origin: "http://localhost:3001" };
+const corsOptions = { origin: "http://localhost:3000" };
 dotenv.config();
 
 app.use(cors(corsOptions));
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome" });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
