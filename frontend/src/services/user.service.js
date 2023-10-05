@@ -8,19 +8,19 @@ import axios from "axios";
 const API_URL = "http://localhost:3001/api/test";
 
 const getUserBoard = async () => {
-    return axios.get(API_URL + "user")
+  return axios.get(API_URL + "user");
 };
 
 const getAminBoard = async () => {
-    return axios.get(API_URL + "admin")
+  return axios.get(API_URL + "admin");
 };
 
 const getModeratorBoard = async () => {
-    return axios.get(API_URL + "mod")
+  return axios.get(API_URL + "mod");
 };
 
 const getPublicContent = async () => {
-    return axios.get(API_URL + "all")
+  return axios.get(API_URL + "all");
 };
 
 const UserService = {
