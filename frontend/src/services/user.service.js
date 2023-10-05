@@ -5,7 +5,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/test";
+const API_URL = "http://localhost:3001/api/test/";
 
 const getUserBoard = async () => {
   return axios.get(API_URL + "user");
