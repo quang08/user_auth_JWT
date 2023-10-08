@@ -4,7 +4,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/auth";
+const API_URL = "http://localhost:3001/api/auth/";
 
 const register = async (username, email, password) => {
   return await axios.post(API_URL + "signup", {
@@ -22,8 +22,10 @@ const login = async (username, password) => {
       password,
     })
     .then((response) => {
+      console.log(response.data);
       if (response.data.username) {
         localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("token", response.data.accessToken);
       }
       return response.data;
     });
