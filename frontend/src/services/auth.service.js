@@ -22,8 +22,10 @@ const login = async (username, password) => {
       password,
     })
     .then((response) => {
+      console.log(response.data);
       if (response.data.username) {
         localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("token", response.data.accessToken);
       }
       return response.data;
     });
